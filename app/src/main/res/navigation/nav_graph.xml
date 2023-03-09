@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/LoginFragment">
+    app:startDestination="@id/MapFragment">
 
     <fragment
         android:id="@+id/LoginFragment"
@@ -19,5 +19,9 @@
         android:id="@+id/MapFragment"
         android:name="com.example.androidprojekt.fragments.MapFragment"
         android:label="@string/map_fragment_label"
-        tools:layout="@layout/fragment_map"/>
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_MapFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
 </navigation>

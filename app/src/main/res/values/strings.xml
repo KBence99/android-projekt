@@ -13,4 +13,12 @@
     <string name="login_password">password</string>
     <string name="login_button">Login</string>
     <string name="login_error">Hibás felhasználói adatok</string>
+
+    <string-array name="cities_array">
+        <item>--Select a city--</item>
+        <item>Debrecen</item>
+        <item>Budapest</item>
+        <item>Pécs</item>
+        <item>Sopron</item>
+    </string-array>
 </resources>
