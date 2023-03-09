@@ -1,6 +1,7 @@
 package com.example.androidprojekt.fragments
 
-import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.androidprojekt.R
 import com.example.androidprojekt.databinding.FragmentMapBinding
-import com.example.androidprojekt.dataformats.CityData
 import com.example.androidprojekt.webclient.Webclient
 import kotlinx.coroutines.*
 
@@ -22,7 +22,7 @@ class MapFragment  : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
         binding.spinnerCities.onItemSelectedListener
@@ -39,26 +39,22 @@ class MapFragment  : Fragment(), AdapterView.OnItemSelectedListener {
 
         return binding.root
     }
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
             val item = parent.getItemAtPosition(pos)
             if(item == "--Select a city--")
                 return
-            println(parent.getItemAtPosition(pos))
-            binding.mapCityCoords.text = "..."
-            GlobalScope.launch(Dispatchers.Main) {
-                val city = Webclient.requestCity(parent.getItemAtPosition(pos).toString())
+            CoroutineScope(Dispatchers.IO).launch {
+                val city = Webclient.requestCity(parent.getItemAtPosition(pos).toString(),super.requireContext())
                 if(city == null){
-                    Toast.makeText(super.requireContext(), "City could not be found", Toast.LENGTH_SHORT).show()
+                    println("City could not be found")
                 }
                 else{
-                    val location = "City location is ${city.latitude}:${city.longitude}"
-                    Toast.makeText(super.requireContext(), location, Toast.LENGTH_SHORT).show()
-                    binding.mapCityCoords.text = location
+                    val gmmIntentUri = Uri.parse("geo:${city.latitude},${city.longitude}")
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    startActivity(mapIntent)
                 }
             }
         }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {
-        // Another interface callback
-    }
+    override fun onNothingSelected(parent: AdapterView<*>) {}
 }

@@ -14,6 +14,9 @@
     <string name="login_button">Login</string>
     <string name="login_error">Hibás felhasználói adatok</string>
 
+    <string name="apiKey">"9f345495d4msh03e6585cdc223c1p16c1a4jsne51d83ef4eda"</string>
+    <string name="apiHost">"wft-geo-db.p.rapidapi.com"</string>
+
     <string-array name="cities_array">
         <item>--Select a city--</item>
         <item>Debrecen</item>
